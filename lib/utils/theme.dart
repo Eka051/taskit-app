@@ -74,7 +74,7 @@ class AppTheme {
 final _lightColors = AppColors(
   primary: const Color(0xFF4739EB),
   secondary: const Color(0xFFFFC900),
-  background: const Color(0xFFF5F5F5),
+  background: const Color(0xFFFFFFFF),
   tertiary: const Color(0xFFFFA400),
   gradient: const Color(0xFF006CFF),
   green: const Color(0xFF52B35E),

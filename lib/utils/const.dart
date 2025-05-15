@@ -32,7 +32,7 @@ class AppRoutes {
   static const String signUp = '/auth-option';
   static const String home = '/home';
   static const String addTask = '/add-task';
-  static const String taskDetails = '/task-details';
+  static const String taskDetails = '/task-detail';
   static const String editTask = '/edit-task';
 }
 

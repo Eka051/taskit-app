@@ -104,8 +104,6 @@ abstract class AppDialog {
     String? title,
     VoidCallback? onConfirm,
   }) async {
-    // Success dialog without auto-close timer to prevent null check errors
-
     return showDialog(
       context: context,
       builder:
@@ -116,7 +114,7 @@ abstract class AppDialog {
             ),
             child: SizedBox(
               width: 320,
-              height: 360,
+              height: 340,
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
@@ -194,7 +192,7 @@ abstract class AppDialog {
             ),
             child: SizedBox(
               width: 320,
-              height: 360,
+              height: 340,
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
