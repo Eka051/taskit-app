@@ -217,16 +217,14 @@ class TaskProvider with ChangeNotifier {
       onConfirm: () {
         confirmDelete = true;
         Navigator.of(context).pop();
+        AppDialog.showSuccessDialog(
+          context: context,
+          message: 'Task deleted successfully',
+        );
       },
       onCancel: () {
         confirmDelete = false;
-        Navigator.of(context).pop();
       },
-    );
-
-    AppDialog.showSuccessDialog(
-      context: context,
-      message: 'Task deleted successfully',
     );
 
     if (!confirmDelete) return;
