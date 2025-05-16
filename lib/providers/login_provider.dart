@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskit_app/helper/navigation_helper.dart';
 import 'package:taskit_app/providers/auth_provider.dart';
 import 'package:taskit_app/widgets/dialog_app.dart';
 
@@ -7,15 +8,17 @@ class LoginProvider with ChangeNotifier {
   bool isLoading = false;
   bool isEmailValid = false;
   bool isPasswordValid = false;
-  bool isConfirmPasswordValid = false;
   bool isError = false;
   bool obscurePassword = true;
   String? errorMessage;
 
-  final formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> loginFormKey = GlobalKey<FormState>(
+    debugLabel: 'loginFormKey',
+  );
   final AppAuthProvider appAuthProvider = AppAuthProvider();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final navigationHelper = NavigationHelper();
 
   void togglePasswordVisibility() {
     obscurePassword = !obscurePassword;
@@ -52,22 +55,8 @@ class LoginProvider with ChangeNotifier {
     }
   }
 
-  String? validateConfirmPassword(String password, String confirmPassword) {
-    if (password != confirmPassword) {
-      errorMessage = 'Konfirmasi password tidak sama';
-      isConfirmPasswordValid = false;
-      notifyListeners();
-      return errorMessage;
-    } else {
-      errorMessage = null;
-      isConfirmPasswordValid = true;
-      notifyListeners();
-      return null;
-    }
-  }
-
   Future<void> login(BuildContext context) async {
-    if (formKey.currentState?.validate() ?? false) {
+    if (loginFormKey.currentState?.validate() ?? false) {
       final email = emailController.text.trim();
       final password = passwordController.text.trim();
 
@@ -91,7 +80,9 @@ class LoginProvider with ChangeNotifier {
                 'Selamat datang ${appAuthProvider.user?.displayName ?? "kembali"}!',
           );
           Future.delayed(Duration(milliseconds: 1500), () {
-            Navigator.pushReplacementNamed(context, '/home');
+            if (context.mounted) {
+              Navigator.pushReplacementNamed(context, '/home');
+            }
           });
         } else {
           isLoading = false;
@@ -176,13 +167,36 @@ class LoginProvider with ChangeNotifier {
       title: 'Keluar Dari Aplikasi?',
       message: 'Apakah Anda yakin ingin keluar dari aplikasi?',
       onConfirm: () {
+        resetForm();
         appAuthProvider.logout();
         isLoggedIn = false;
         isLoading = false;
         notifyListeners();
-        Navigator.pushReplacementNamed(context, '/login');
+        navigationHelper.safeNavigate(context, '/login');
       },
-      onCancel: () {}
+      onCancel: () {},
     );
+  }
+
+  void resetForm() {
+    loginFormKey = GlobalKey<FormState>(
+      debugLabel: 'loginFormKey',
+    );
+    emailController.clear();
+    passwordController.clear();
+    isEmailValid = false;
+    isPasswordValid = false;
+    errorMessage = null;
+    isError = false;
+    isLoading = false;
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    resetForm();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 }

@@ -21,7 +21,12 @@ class AppStrings {
   static const String forgotPassword = 'Forgot Password?';
   static const String orLoginWith = 'Or login with';
   static const String dontHaveAccount = 'Don\'t have an account?';
+  static const String alreadyHaveAccount = 'Already have an account?';
+  static const String signIn = 'Sign In';
   static const String signUp = 'Sign Up';
+  static const String signUpSubtitle = 'Create an account to manage your tasks';
+  static const String name = 'Name';
+  static const String confirmPassword = 'Confirm Password';
   static const String loginWithGoogle = 'Login with Google';
 }
 
@@ -29,10 +34,9 @@ class AppStrings {
 class AppRoutes {
   static const String splash = '/splash';
   static const String login = '/login';
-  static const String signUp = '/auth-option';
+  static const String signUp = '/signUp';
   static const String home = '/home';
   static const String addTask = '/add-task';
   static const String taskDetails = '/task-detail';
   static const String editTask = '/edit-task';
 }
-

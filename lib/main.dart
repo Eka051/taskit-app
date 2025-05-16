@@ -5,10 +5,12 @@ import 'package:taskit_app/firebase_options.dart';
 import 'package:taskit_app/providers/auth_provider.dart';
 import 'package:taskit_app/providers/home_provider.dart';
 import 'package:taskit_app/providers/login_provider.dart';
+import 'package:taskit_app/providers/register_provider.dart';
 import 'package:taskit_app/providers/task_provider.dart';
 import 'package:taskit_app/utils/const.dart';
 import 'package:taskit_app/utils/theme.dart';
 import 'package:taskit_app/views/auth/login_view.dart';
+import 'package:taskit_app/views/auth/register_view.dart';
 import 'package:taskit_app/views/home/home_view.dart';
 import 'package:taskit_app/views/splashscreen/splashscreen_view.dart';
 import 'package:taskit_app/views/tasks/add_task_view.dart';
@@ -32,6 +34,7 @@ class TaskitApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LoginProvider()),
         ChangeNotifierProvider(create: (_) => TaskProvider()),
         ChangeNotifierProvider(create: (_) => HomeProvider()),
+        ChangeNotifierProvider(create: (_) => RegisterProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -44,6 +47,7 @@ class TaskitApp extends StatelessWidget {
           AppRoutes.login: (context) => const LoginView(),
           AppRoutes.home: (context) => const HomeView(),
           AppRoutes.addTask: (context) => const AddTaskView(),
+          AppRoutes.signUp: (context) => const RegisterView(),
         },
         onGenerateRoute: (settings) {
           if (settings.name == AppRoutes.taskDetails) {

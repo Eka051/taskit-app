@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:taskit_app/helper/navigation_helper.dart';
 import 'package:taskit_app/providers/auth_provider.dart';
 import 'package:taskit_app/utils/const.dart';
 import 'package:taskit_app/utils/theme.dart';
 import 'package:taskit_app/widgets/app_label.dart';
-import 'package:taskit_app/widgets/dialog_app.dart';
 import 'package:taskit_app/widgets/google_button.dart';
 import 'package:taskit_app/widgets/textform.dart';
 import '../../providers/login_provider.dart';
@@ -23,8 +23,9 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     final loginProvider = Provider.of<LoginProvider>(context);
-    final auth = Provider.of<AppAuthProvider>(context);
     final isLoading = loginProvider.isLoading;
+    final navigationHelper = NavigationHelper();
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -86,7 +87,7 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     const SizedBox(height: 40),
                     Form(
-                      key: loginProvider.formKey,
+                      key: loginProvider.loginFormKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -127,7 +128,6 @@ class _LoginViewState extends State<LoginView> {
                                     loginProvider.validatePassword(value ?? ''),
                           ),
                           const SizedBox(height: 30),
-                          // Login Button
                           SizedBox(
                             width: double.infinity,
                             height: 56,
@@ -135,7 +135,9 @@ class _LoginViewState extends State<LoginView> {
                               onPressed:
                                   isLoading
                                       ? null
-                                      : () => loginProvider.login(context),
+                                      : () {
+                                        loginProvider.login(context);
+                                      },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: theme.colors.primary,
                                 foregroundColor: Colors.white,
@@ -212,7 +214,9 @@ class _LoginViewState extends State<LoginView> {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            navigationHelper.safeNavigate(context, '/signUp');
+                          },
                           style: TextButton.styleFrom(
                             foregroundColor: theme.colors.primary,
                           ),

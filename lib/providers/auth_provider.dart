@@ -11,7 +11,6 @@ class AppAuthProvider with ChangeNotifier {
   String? _errorMessage;
   String? _profilePictureUrl;
 
-  final formKey = GlobalKey<FormState>();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   bool get isLoggedIn => _isLoggedIn;
@@ -65,20 +64,20 @@ class AppAuthProvider with ChangeNotifier {
     _isError = false;
     notifyListeners();
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      var user = _firebaseAuth.currentUser;
-      if (user != null) {
+      if (userCredential.user != null) {
         _isLoggedIn = true;
         final prefs = await SharedPreferences.getInstance();
         await prefs.setBool('isLoggedIn', true);
+        return true;
       } else {
         _isLoggedIn = false;
+        return false;
       }
-      return true;
     } on FirebaseAuthException catch (e) {
       _isError = true;
 
