@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:taskit_app/providers/task_provider.dart';
 
 class HomeProvider with ChangeNotifier {
-  // Simplified methods that delegate to TaskProvider
   Future<void> refreshTasks(
     BuildContext context,
     TaskProvider taskProvider,
@@ -10,8 +9,6 @@ class HomeProvider with ChangeNotifier {
     await taskProvider.fetchTasks(context);
   }
 
-  // These methods are kept for backward compatibility
-  // But they now simply delegate to TaskProvider
   Color getPriorityColor(String? priority, BuildContext context) {
     return TaskProvider().getPriorityColor(priority, context);
   }
